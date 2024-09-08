@@ -10,11 +10,15 @@ export  async function POST(req: NextRequest) {
 
 
 try {
+
+    const  datacom = await req.json();
+
     
     await prisma.message.create({
         data: {
-            chatId : "cm0kthwwg000011nhwg9xsi8j",
-          content: "Hello World",
+            chatId : datacom.chatId,
+            content: datacom.content,
+         
     
         },
     });

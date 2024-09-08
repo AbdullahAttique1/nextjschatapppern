@@ -60,7 +60,7 @@ export default function LandingArea() {
 
 
   return (
-    <div className="flex min-h-screen flex-col bg-background">
+    <div className="flex  flex-col bg-background">
       <header className="bg-primary text-primary-foreground py-4 px-6">
         <div className="container mx-auto flex items-center justify-between">
           <h1 className="text-2xl font-bold">Chat App</h1>
@@ -91,6 +91,15 @@ export default function LandingArea() {
       </header>
 
   
+
+<main>
+
+
+
+</main>
+
+
+
     </div>
   );
 }
