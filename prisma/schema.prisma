@@ -27,7 +27,7 @@ model User {
   sessions      Session[]
   // Optional for WebAuthn support
   Authenticator Authenticator[]
- user Message[]
+ user Chattemp[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -90,7 +90,15 @@ model Authenticator {
   @@id([userId, credentialID])
 }
 
-
+model Chattemp {
+  id String @id @default(cuid())
+  chatId String @default(cuid())
+   users   String[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  chatcreated User @relation(fields: [chatId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  messages Message[]
+}
 
 model Message {
   id String @id @default(cuid())
@@ -98,5 +106,5 @@ model Message {
   content String 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  chat User @relation(fields: [chatId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  message Chattemp @relation(fields: [chatId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }

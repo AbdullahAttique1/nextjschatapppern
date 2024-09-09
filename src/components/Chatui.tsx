@@ -2,7 +2,9 @@
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
-import { prisma } from "@/prisma"
+import { prisma } from "@/prisma";
+import { signIn, signOut, useSession } from "next-auth/react";
+
 import { useEffect, useState } from "react"
 
 export default function Chatui() {
@@ -11,6 +13,7 @@ export default function Chatui() {
 const [messagetext,setMessageText]=useState("")
 
 const [resivemessage, setResivemessage] = useState<any[]>([]);
+const [useremail,setUseremail]=useState("")
 
 
 const handleSendMessage=async()=>{
@@ -67,11 +70,33 @@ useEffect(() => {
 }, []); // Empty dependency array ensures the function runs only once
 
 
+
+
+  const { data: session } = useSession();
+
+ 
+
+
+   
+
+  useEffect(() => {
+    if (session?.user?.id) {
+      setUseremail(session.user.id);
+    }
+  }, [session]);
+
+
+
+
+// cm0kthwwg000011nhwg9xsi8j
+// cm0kthwwg000011nhwg9xsi8j
+// cm0nv94ua00061as1o8pzodfs
+
   return (
 
     <>
 
-
+{useremail} 
 <div className="flex flex-col h-screen">
   {/* Messages container */}
   <div className="flex-1 overflow-auto p-4">
