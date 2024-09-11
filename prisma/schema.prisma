@@ -97,14 +97,14 @@ model Chattemp {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   chatcreated User @relation(fields: [chatId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  messages Message[]
+  // messages Message[]
 }
-
+   
 model Message {
   id String @id @default(cuid())
   chatId String @default(cuid())
   content String 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  message Chattemp @relation(fields: [chatId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-}
+  // message Chattemp @relation(fields: [chatId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+}      

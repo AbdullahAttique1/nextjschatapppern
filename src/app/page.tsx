@@ -1,18 +1,31 @@
-import Chatui from "@/components/Chatui";
-import ChatApp from "@/components/gptui/Chatuiarea";
-import Landingareaha from "@/components/landingarea";
+"use client"
+import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
+
 
 
 export default  function Home() {
 
+const router = useRouter();
+
+const CreateChatinstance=async()=>{
+
+ router.push("/Chatroom/cm0kthwwg000011nhwg9xsi8j")
+   
+   
+   
+}
 
   return (
   <>
-  <div className="flex min-h-screen flex-col bg-background">
+  <div className="flex min-h-screen flex-col items-center justify-center bg-background">
 
- <Landingareaha />
- <ChatApp />
- <Chatui />
+
+<Button variant={"default"} size={"lg"} className={"bg-primary text-white"} onClick={CreateChatinstance}>
+  Create  Chatt
+
+</Button>
+ 
   </div>
 
   </>

@@ -32,28 +32,11 @@ const ChatApp = () => {
 
   return (
     <div className="h-screen flex">
-      {/* Sidebar */}
-      <div className="w-1/3 bg-gray-100 p-4 border-r border-gray-300">
-        <h2 className="text-xl font-semibold mb-4">Contacts</h2>
-        <ul>
-          {contacts.map(contact => (
-            <li
-              key={contact.id}
-              onClick={() => setCurrentChat(contact)}
-              className={`flex items-center p-3 mb-3 cursor-pointer rounded-lg ${currentChat.id === contact.id ? 'bg-blue-100' : ''}`}
-            >
-              <img src={contact.avatar} alt={contact.name} className="w-12 h-12 rounded-full mr-3" />
-              <div>
-                <p className="text-gray-800 font-medium">{contact.name}</p>
-                <p className="text-gray-600 text-sm truncate">{contact.message}</p>
-              </div>
-            </li>
-          ))}
-        </ul>
-      </div>
+   
+
 
       {/* Chat Section */}
-      <div className="w-2/3 flex flex-col">
+      <div className="w-full flex flex-col">
         {/* Header */}
         <div className="flex items-center bg-white px-6 py-4 border-b border-gray-300">
           <img src={currentChat.avatar} alt={currentChat.name} className="w-12 h-12 rounded-full mr-4" />
@@ -81,8 +64,8 @@ const ChatApp = () => {
         <div className="p-4 bg-white border-t border-gray-300 flex items-center">
           <textarea
             className="flex-1 resize-none border border-gray-300 rounded-lg p-2 focus:outline-none"
-            // ts-ignore            
-            rows="1"
+                  
+            rows={1}
             placeholder="Type your message..."
             value={newMessage}
             onChange={(e) => setNewMessage(e.target.value)}

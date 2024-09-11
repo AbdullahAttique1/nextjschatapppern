@@ -16,9 +16,12 @@ try {
     
     await prisma.message.create({
         data: {
+
+            id: "slasikhfasfhsdfhsdlkfhslkf",
+            message: "slasikhfasfhsdfhsdlkfhslkf",
             chatId : datacom.chatId,
             content: datacom.content,
-         
+
     
         },
     });

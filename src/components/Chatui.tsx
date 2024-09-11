@@ -16,7 +16,10 @@ const [resivemessage, setResivemessage] = useState<any[]>([]);
 const [useremail,setUseremail]=useState("")
 
 
-const handleSendMessage=async()=>{
+const handleSendMessage=async(e:any)=>{
+
+  e.preventDefault()
+
 
   const res = await fetch("/api/addchat", {
         method: "POST",
