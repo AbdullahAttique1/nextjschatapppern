@@ -92,11 +92,11 @@ model Authenticator {
 
 model Chattemp {
   id String @id @default(cuid())
-  chatId String @default(cuid())
+  chatId String @unique
    users   String[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  chatcreated User @relation(fields: [chatId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  chatcreated User @relation(fields: [id], references: [id], onDelete: Cascade, onUpdate: Cascade)
   // messages Message[]
 }
    

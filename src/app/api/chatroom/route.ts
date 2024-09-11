@@ -8,8 +8,8 @@ try {
     const chatroom = await prisma.chattemp.create({
         data: {
 
-          chatId:"slasikhfasfhsdfhsdlkfhslkf",
-          id:"asjdsaldhajkshdkjsahdksa",
+            chatId: "cm0y6jz4v0002fgheuwjgl8y4l", 
+            users: ["cm0y6jz4v0002pjeuwjgl"],
           
         },
     });
