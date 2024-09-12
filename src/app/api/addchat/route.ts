@@ -10,8 +10,13 @@ export  async function POST(req: NextRequest) {
 
 
 try {
+    
 
     const  datacom = await req.json();
+
+    if (!datacom.useremail || !datacom.messageid || !datacom.content) {
+        return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
+    }
 
     const userdata = await prisma.user.findUnique({
         where: {
@@ -50,3 +55,6 @@ try {
 
 
 }
+
+
+
