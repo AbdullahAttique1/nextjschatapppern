@@ -55,6 +55,20 @@ else{
      
 }
 
+
+if(!session?.user?.email){
+return<>
+
+<div className="flex min-h-screen flex-col items-center justify-center bg-background">
+
+Log in to create a chat room Login button on Top
+ 
+  </div>
+
+</>
+
+}
+
   return (
   <>
   <div className="flex min-h-screen flex-col items-center justify-center bg-background">

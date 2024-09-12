@@ -12,28 +12,6 @@ try {
 const data=await req.json();
 
 
-// const recivedData = await prisma.message.findMany({
-//     where: {
-//         messageid: data.messageid,
-//     },
-
-
-
-// });
-
-
-// console.log(recivedData,"recived data");
-
-
-// const userdata=prisma.user.findUnique({
-//     where: {
-//         id: recivedData.massegecreateduser,
-//     },
-// });
-
-
-
-
 
 const recivedData = await prisma.message.findMany({
     where: {
@@ -41,12 +19,18 @@ const recivedData = await prisma.message.findMany({
     },
   });
   
+  for (const message of recivedData) {
+    const userdata = await prisma.user.findUnique({
+      where: {
+        id: message.massegecreateduser, // Access the massegecreateduser field from each message
+      },
+    });
 
+  return NextResponse.json({ userdata }, { status: 200 });
+    }
 
   
   
-
-return NextResponse.json({ recivedData }, { status: 200 });
  
 } catch (error) {
    
