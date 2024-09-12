@@ -9,9 +9,12 @@ try {
     
 //    user should recive data from the database
 
+const data=await req.json();
+
+
 const recivedData = await prisma.message.findMany({
     where: {
-        chatId: "cm0kthwwg000011nhwg9xsi8j",
+        messageid: data.messageid,
     },
 
 

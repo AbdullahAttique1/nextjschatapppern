@@ -69,8 +69,7 @@ export default function LandingArea() {
           <h1 className="text-2xl font-bold">Chat App</h1>
           {user ? (
             <div className="flex items-center gap-4">
-              {session?.user?.id}
-              {session?.user?.email}
+          
               <div className="flex items-center gap-2">
                 <Avatar className="w-8 h-8">
                   <AvatarImage

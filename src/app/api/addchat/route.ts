@@ -17,9 +17,8 @@ try {
     await prisma.message.create({
         data: {
 
-            id: "slasikhfasfhsdfhsdlkfhslkf",
-         
-            chatId : datacom.chatId,
+                   
+            messageid:datacom.messageid,
             content: datacom.content,
 
     

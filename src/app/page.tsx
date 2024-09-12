@@ -2,6 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { signIn, signOut, useSession } from "next-auth/react";
+import generateRandomId from "@/lib/Randomfun";
 
 
 
@@ -10,9 +11,7 @@ export default  function Home() {
   
 
   
-const userid=session?.user?.id
 
-console.log(userid,"akhd");
 
 const router = useRouter();
 
@@ -24,17 +23,7 @@ const CreateChatinstance=async()=>{
 
   // randomid include english small and larg ealphabet and math numbers
 
-  function generateRandomId(length:number) {
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    let randomId = '';
-    
-    for (let i = 0; i < length; i++) {
-      const randomIndex = Math.floor(Math.random() * characters.length);
-      randomId += characters[randomIndex];
-    }
-  
-    return randomId;
-  }
+ 
   
   const randomId = generateRandomId(10); // Generates a random ID of 10 characters
  
@@ -49,9 +38,8 @@ headers:{
 "Content-Type":"application/json"
 },
 body:JSON.stringify({
-userid:userid,
+  useremail:session?.user?.email,
 randomid:randomId,
-users:userid,
 })
 })
 
@@ -70,10 +58,7 @@ else{
   return (
   <>
   <div className="flex min-h-screen flex-col items-center justify-center bg-background">
-{session?.user?.id}
-{session?.user?.email}
-{session?.user?.name}
-{/* <img src={session?.user?.image} alt="profile image" /> */}
+
 
 <Button variant={"default"} size={"lg"} className={"bg-primary text-white"} onClick={CreateChatinstance}>
   Create  Chatt

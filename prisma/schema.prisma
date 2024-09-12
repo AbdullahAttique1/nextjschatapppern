@@ -18,8 +18,9 @@ datasource db {
  
  
 model User {
-  id            String          @id 
+  id String @id @default(cuid())
   email         String          @unique
+  name         String?
   emailVerified DateTime?
   image         String?
   accounts      Account[]
@@ -27,6 +28,7 @@ model User {
   // Optional for WebAuthn support
   Authenticator Authenticator[]
  user Chattemp[]
+ messages Message[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -97,14 +99,16 @@ model Chattemp {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   chatcreated User @relation(fields: [checker], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  // messages Message[]
+  messages Message[]
 }
    
 model Message {
   id String @id @default(cuid())
-  chatId String @default(cuid())
+  messageid  String @default(cuid())
   content String 
+  massegecreateduser String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  // message Chattemp @relation(fields: [chatId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  message Chattemp @relation(fields: [messageid], references: [chatId], onDelete: Cascade, onUpdate: Cascade)
+  massegecreated User @relation(fields: [massegecreateduser], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }      

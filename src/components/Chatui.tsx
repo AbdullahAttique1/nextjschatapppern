@@ -2,7 +2,8 @@
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
-import { prisma } from "@/prisma";
+import { usePathname } from 'next/navigation'
+
 import { signIn, signOut, useSession } from "next-auth/react";
 
 import { useEffect, useState } from "react"
@@ -16,6 +17,11 @@ const [resivemessage, setResivemessage] = useState<any[]>([]);
 const [useremail,setUseremail]=useState("")
 
 
+const pathname = usePathname()
+
+const  messageid  = pathname.split("/")[2];
+
+
 const handleSendMessage=async(e:any)=>{
 
   e.preventDefault()
@@ -27,8 +33,14 @@ const handleSendMessage=async(e:any)=>{
             "Content-Type": "application/json",
         },
         body: JSON.stringify({
-            chatId : "cm0kthwwg000011nhwg9xsi8j",
-            content: messagetext,
+
+
+
+          messageid : messageid,
+          content: messagetext,
+
+           
+
         }),
     });
 
@@ -52,7 +64,7 @@ async function getMessages() {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                chatId: "cm0kthwwg000011nhwg9xsi8j",
+              messageid: messageid,
             }),
         });
         const data = await messagesFromDatabase.json();

@@ -2,36 +2,41 @@ import { prisma } from '@/prisma';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(request: NextRequest, { params }: { params: { chatarea: string[] } }) {
-   
-try {
+  try {
+    // Parse the request JSON data
+    const data = await request.json();
 
-   
+    // Fetch the user data by email
+    const userdata = await prisma.user.findUnique({
+      where: {
+        email: data.useremail,
+      },
+    });
 
-const data =await request.json();
+  
 
 
+    const userid=userdata ? userdata.id : "cm0z4mmfy000012z5bax1pgka";
+
+    // Create a chat room
     const chatroom = await prisma.chattemp.create({
-        data: {
+      data: {
+        chatId: data.randomid,
+        checker: userid, // This should be the ID of an existing user
+        users: [userid,],
+      },
+    });
 
-          chatId: data.randomid,
-          checker: data.userid, // This should be the ID of an existing user
-          users: [data.userid],
-         
-        },
-      });
-      
-    return NextResponse.json({ message: 'Chat room created successfully' });
-} catch (error) {
-    console.log(error);
+    return NextResponse.json({
+      userdata: userdata,
+      message: 'Chat room created successfully'
+    });
+
+  } catch (error) {
+    console.error(error);
     return NextResponse.json(
-        { message: 'Error creating chat room' }, 
-        { status: 505 }
-      );
-      
-    
-    
-}
-
-
-   
+      { message: 'Error creating chat room' }, 
+      { status: 500 } // Status code should be 500 for server errors
+    );
+  }
 }
