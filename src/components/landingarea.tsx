@@ -1,7 +1,9 @@
 "use client";
 
 import { Avatar, AvatarImage } from "@radix-ui/react-avatar";
+
 import { signIn, signOut, useSession } from "next-auth/react";
+
 import { useEffect, useState } from "react";
 import { Button } from "./ui/button";
 
@@ -23,6 +25,7 @@ export default function LandingArea() {
 
 
   const { data: session } = useSession();
+
 
   useEffect(() => {
     if (session?.user) {
@@ -66,6 +69,8 @@ export default function LandingArea() {
           <h1 className="text-2xl font-bold">Chat App</h1>
           {user ? (
             <div className="flex items-center gap-4">
+              {session?.user?.id}
+              {session?.user?.email}
               <div className="flex items-center gap-2">
                 <Avatar className="w-8 h-8">
                   <AvatarImage
