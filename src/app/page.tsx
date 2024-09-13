@@ -61,7 +61,7 @@ return<>
 
 <div className="flex min-h-screen flex-col items-center justify-center bg-background">
 
-Log in to create a chat room Login button on Top
+Log in to create a chat room Login button on Top you have to login to create a chat room
  
   </div>
 
