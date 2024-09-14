@@ -79,9 +79,9 @@ const ChatApp = () => {
           </button>
         </div>
       </div>
-      < p className='text-center text-white text-2xl'>
-Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias nobis voluptas perspiciatis autem veniam expedita cumque molestias illum aut ullam accusantium totam corpori sunt necessitatibus natus atqu nesciunt voluptatum Sed
-      </p>
+      <div className="text-3xl "> It s s before socket io conection
+        
+      </div>
     </div>
   );
 };
