@@ -1,12 +1,13 @@
 {
   "name": "todo",
   "version": "0.1.0",
-  "private": true,
+  "type": "module",
   "scripts": {
-    "dev": "next dev",    
-    "start": "next start",
-    "lint": "next lint",  
-  "build": "prisma generate && next build" 
+    "dev": "node server.js",
+    "build": "next build",    
+    "start": "NODE_ENV=production node server.js",
+    "lint": "next lint",
+    "server": "node server"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.4.2",
@@ -22,6 +23,8 @@
     "postgres": "^3.4.4",
     "react": "^18",
     "react-dom": "^18",
+    "socket.io": "^4.7.5",
+    "socket.io-client": "^4.7.5",
     "tailwind-merge": "^2.5.2",
     "tailwindcss-animate": "^1.0.7"
   },

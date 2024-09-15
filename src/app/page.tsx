@@ -6,7 +6,16 @@ import generateRandomId from "@/lib/Randomfun";
 
 
 
+
 export default  function Home() {
+
+
+
+
+
+
+
+
   const { data: session } = useSession();
   
 
@@ -54,6 +63,23 @@ else{
   alert("Error creating chat room") }
      
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 if(!session?.user?.email){
