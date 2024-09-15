@@ -34,7 +34,7 @@ try {
 
             messageid:datacom.messageid,
             content: datacom.content,
-            massegecreateduser:userid,
+            massegecreateduser:datacom.useremail,
 
 
     

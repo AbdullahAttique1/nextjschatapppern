@@ -11,10 +11,11 @@ import { socket } from "../socket";
 export default function Chatui() {
   const [messagetext, setMessageText] = useState("");
   const [resivemessage, setResivemessage] = useState<any[]>([]);
-  const [useremail, setUseremail] = useState<string | null>(null);
+  // const [useremail, setUseremail] = useState<string | null>(null);
   const [input, setInput] = useState('');
   const [messages, setMessages] = useState<any[]>([]);
-  const [localemail, setLocalemail] = useState<any>("");
+  const [localemail, setlocaluseremail] = useState<string | null | undefined>(null);
+
 
 
   const pathname = usePathname();
@@ -42,20 +43,22 @@ export default function Chatui() {
   
   
   useEffect(() => {
+
     async function fetchData() {
       try {
+
         // Fetch user data
-        const userResponse = await fetch("/api/userdata", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ messageid: pathname.split("/")[2] }),
-        });
-        const userData = await userResponse.json();
+        // const userResponse = await fetch("/api/userdata", {
+        //   method: "POST",
+        //   headers: { "Content-Type": "application/json" },
+        //   body: JSON.stringify({ messageid: pathname.split("/")[2] }),
+        // });
+        // const userData = await userResponse.json();
 
-        setUseremail(userData.userdata.id);
+        // setUseremail(userData.userdata.email);
+      
 
-        console.log(userData.userdata.email,"Want user email");
-        console.log(useremail,"whats here");
+        
 
         // Fetch messages
         const messageResponse = await fetch("/api/reciveddata", {
@@ -65,10 +68,11 @@ export default function Chatui() {
         });
         const messageData = await messageResponse.json();
         setResivemessage(messageData.recivedData);
-        console.log(messageData.recivedData,"recived data");
+        console.log(messageData.recivedData[0].massegecreateduser,"recived data");
         
       } catch (error) {
-        console.error("Error fetching data", error);
+        console.log(error,"error");
+        console.error("Error reciving data fetching data", error);
       }
     }
 
@@ -80,7 +84,7 @@ export default function Chatui() {
   const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
     const messageid = pathname.split("/")[2];
-    const useremailsend = session?.user?.email;
+    const useremailsend =await session?.user?.email;
 
     const res = await fetch("/api/addchat", {
       method: "POST",
@@ -134,19 +138,20 @@ const handleSubmit = (e:any) => {
 
 
 
-  
+ 
+
+
+
+
+console.log(resivemessage,"messages");
+
 useEffect(() => {
-
-  const useremailha=session?.user?.email;
-  setLocalemail(useremailha);
-
-
-}, [session])
-
-
-console.log(localemail,"localemail");
-console.log(useremail,"dynamicemail");
-
+  const localemail=session?.user?.email;
+  setlocaluseremail(localemail);
+  
+}, [session]);
+console.log(localemail,"localemail",);
+console.log(localemail,"localemail",);
 
 
 
@@ -206,7 +211,7 @@ console.log(useremail,"dynamicemail");
 
 
 
-
+{/* show messages */}
 
 
         <div className="grid gap-4 w-full">
@@ -215,16 +220,17 @@ console.log(useremail,"dynamicemail");
               <div
                 key={message.id}
                 className={`flex items-start gap-4 ${
-                  message.massegecreateduser  === useremail ? 'justify-end' : 'justify-start'
+                  localemail  === message.massegecreateduser ? 'justify-end' : 'justify-start'
                 }`}
               >
                 <Avatar className="w-8 h-8">
                   <AvatarImage src={session?.user?.image ?? "/placeholder-user.jpg"} alt="Avatar" />
                   <AvatarFallback>{message.chatId}</AvatarFallback>
                 </Avatar>
+              
                 <div
                   className={`${
-                    message.massegecreateduser === useremail
+                    localemail === message.massegecreateduser
                       ? "bg-blue-500 text-white"
                       : "bg-black text-white"
                   } rounded-lg p-4 max-w-[80%] flex flex-col`}
@@ -238,7 +244,7 @@ console.log(useremail,"dynamicemail");
             ))}
         </div>
       </div>
-
+    
       <div className="bg-background border-t border-muted px-4 py-2 flex items-center gap-2">
         <form className="w-full relative" onSubmit={handleSendMessage}>
           <Textarea
