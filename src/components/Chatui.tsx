@@ -14,6 +14,7 @@ export default function Chatui() {
   const [useremail, setUseremail] = useState<string | null>(null);
   const [input, setInput] = useState('');
   const [messages, setMessages] = useState<any[]>([]);
+  const [localemail, setLocalemail] = useState<any>("");
 
 
   const pathname = usePathname();
@@ -50,7 +51,11 @@ export default function Chatui() {
           body: JSON.stringify({ messageid: pathname.split("/")[2] }),
         });
         const userData = await userResponse.json();
+
         setUseremail(userData.userdata.id);
+
+        console.log(userData.userdata.email,"Want user email");
+        console.log(useremail,"whats here");
 
         // Fetch messages
         const messageResponse = await fetch("/api/reciveddata", {
@@ -60,12 +65,16 @@ export default function Chatui() {
         });
         const messageData = await messageResponse.json();
         setResivemessage(messageData.recivedData);
+        console.log(messageData.recivedData,"recived data");
+        
       } catch (error) {
         console.error("Error fetching data", error);
       }
     }
 
     fetchData();
+   
+    
   }, [pathname]);
 
   const handleSendMessage = async (e: React.FormEvent) => {
@@ -108,17 +117,7 @@ useEffect(() => {
 
 
 
-  socket.on('chat message', (msg) => {
-
-
-  console.log(msg,"what you get here ");
-  
-      window.scrollTo(0, document.body.scrollHeight);
-    });
-socket.on("hello", (value) => {
-console.log(value);
-
-});
+ 
 
 
 const handleSubmit = (e:any) => {
@@ -131,8 +130,25 @@ const handleSubmit = (e:any) => {
 
 
 
+//msg bhajna wala right side 
+
+
+
   
-  
+useEffect(() => {
+
+  const useremailha=session?.user?.email;
+  setLocalemail(useremailha);
+
+
+}, [session])
+
+
+console.log(localemail,"localemail");
+console.log(useremail,"dynamicemail");
+
+
+
 
   return (
     <div className="flex flex-col h-screen w-full">
@@ -199,7 +215,7 @@ const handleSubmit = (e:any) => {
               <div
                 key={message.id}
                 className={`flex items-start gap-4 ${
-                  message.massegecreateduser === useremail ? 'justify-end' : 'justify-start'
+                  message.massegecreateduser  === useremail ? 'justify-end' : 'justify-start'
                 }`}
               >
                 <Avatar className="w-8 h-8">
@@ -210,11 +226,11 @@ const handleSubmit = (e:any) => {
                   className={`${
                     message.massegecreateduser === useremail
                       ? "bg-blue-500 text-white"
-                      : "bg-white text-black"
-                  } rounded-lg p-4 max-w-[80%] flex`}
+                      : "bg-black text-white"
+                  } rounded-lg p-4 max-w-[80%] flex flex-col`}
                 >
                   <p>{message.content}</p>
-                  <div className="text-xs text-muted-foreground mt-1">
+                  <div className="text-xs text-[#d5d5d5] mt-1">
                     {new Date(message.createdAt).toLocaleString()}
                   </div>
                 </div>
