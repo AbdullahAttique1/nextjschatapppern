@@ -12,7 +12,7 @@ const data=await req.json();
 const recivedData = await prisma.message.findMany({
     where: {
       messageid: data.messageid,
-    },
+    }, 
   });
   
   

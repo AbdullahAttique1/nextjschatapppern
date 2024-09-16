@@ -7,6 +7,8 @@ import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { socket } from "../socket";
+import io from 'socket.io-client';
+
 
 export default function Chatui() {
   const [messagetext, setMessageText] = useState("");
@@ -49,12 +51,6 @@ export default function Chatui() {
 
       try {
     
-        // Fetch user data
-
-      
-
-        
-
         // Fetch messages
         if (status !== 'authenticated') {
           // Wait until the session is fully authenticated
@@ -62,7 +58,7 @@ export default function Chatui() {
         }
     
         const useremailsend = session?.user?.email;
-        console.log(useremailsend,"useremailsend");
+       
         const messageResponse = await fetch("/api/reciveddata", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -78,25 +74,9 @@ export default function Chatui() {
 
         const messageData = await messageResponse.json();
 
-        console.log(messageData,"userdata");
         
-
-
         setResivemessage(messageData.recivedData);
 
-
-
-
-
-
-
-
-
-
-
-
-
-       
         
       } catch (error) {
         console.log(error,"error");
@@ -109,12 +89,15 @@ export default function Chatui() {
     
   }, [pathname,session,status]);
 
+
+
+
   const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
     const messageid = pathname.split("/")[2];
     const useremailsend =await session?.user?.email;
     const userimage =await session?.user?.image;
-    console.log(useremailsend,"useremailsend handlesend masg");
+   
 
     const res = await fetch("/api/addchat", {
       method: "POST",
@@ -126,10 +109,11 @@ export default function Chatui() {
         userimaage:userimage,
       }),
     });
-
+    socket.emit('chat message', input);
     if (res.ok) {
       alert("Message sent successfully");
       setMessageText("");
+      socket.emit('chat message', input);
     } else {
       console.log("Error sending message");
     }
@@ -138,43 +122,25 @@ export default function Chatui() {
   
 
 
+
+
+
+
 useEffect(() => {
-  // Listen for 'chat message' events from the server
   socket.on('chat message', (msg) => {
+    console.log(msg,"msg1");
+    
     setMessages((prevMessages) => [...prevMessages, msg]);
-    window.scrollTo(0, document.body.scrollHeight);
+    console.log(messages,"messages");
+    
   });
+
   return () => {
     socket.off('chat message');
   };
 }, []);
-
-
-
-
  
 
-
-const handleSubmit = (e:any) => {
-  e.preventDefault();
-  if (input) {
-    socket.emit('chat message', input);
-    setInput(''); // Clear the input field
-  }
-};
-
-
-
-//msg bhajna wala right side 
-
-
-
- 
-
-
-
-
-console.log(resivemessage,"messages");
 
 useEffect(() => {
   const localemail=session?.user?.email;
@@ -186,62 +152,25 @@ useEffect(() => {
 }, [session]);
 
 
+useEffect(() => {
+  // Listen for 'message1' events from the server
+  socket.on('message1', (data) => {
+    console.log('Received from SERVER:', data);
+  });
+
+  return () => {
+    socket.off('message1');
+  };
+}, []);
+
+
+
 
 
 
   return (
     <div className="flex flex-col h-screen w-full">
       <div className="flex-1 overflow-auto p-4 w-full">
-
-
-
-
-
-      <div className="max-w-md mx-auto p-4 bg-gray-100 rounded-lg shadow-lg">
-    {/* Status and Transport Information */}
-    <div className="mb-4 p-2 bg-white rounded-lg shadow-md">
-     
-      
-
-
-    </div>
-  
-    {/* Messages List */}
-    <div className="mb-4 h-64 overflow-y-auto p-2 bg-white rounded-lg shadow-md">
-      <ul id="messages" className="space-y-2">
-        {messages.map((msg, index) => (
-          <li
-            key={index}
-            className="p-2 bg-blue-500 text-white rounded-lg"
-          >
-            {msg}
-          </li>
-        ))}
-      </ul>
-    </div>
-  
-    {/* Input Form */}
-    <form id="form" onSubmit={handleSubmit} className="flex space-x-2">
-      <input
-        id="input"
-        placeholder="Type a message..."
-        className="flex-grow bg-blue-500 text-white border-2 border-black rounded-lg px-4 py-2 focus:outline-none"
-        value={input}
-        onChange={(e) => setInput(e.target.value)}
-        autoComplete="off"
-      />
-      <button
-        type="submit"
-        className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 focus:outline-none"
-      >
-        Send
-      </button>
-    </form>
-  </div>
-
-
-
-
 
 
 

@@ -1,9 +1,17 @@
 
 import { prisma } from "@/prisma";
 import { NextRequest, NextResponse } from "next/server";
+import { Server } from 'socket.io';
+import { createServer } from "node:http";
 
 
-export  async function POST(req: NextRequest) {
+
+
+
+
+export  async function POST(req: any) {
+
+    const httpServer = createServer(req);
     
 
 // user should add chat data to the database
@@ -37,6 +45,26 @@ try {
     
         },
     });
+
+
+    const io = new Server(httpServer);
+
+    io.on('connection', (socket) => {
+      socket.on('chat message', (msg) => {
+        io.emit('chat message', msg);
+      });
+    });
+    httpServer
+      .once("error", (err) => {
+        console.error(err);
+        process.exit(1);
+      })
+
+
+    // const io = new Server();
+    // io.emit('message1', 'Message added to the database');
+
+  
 
     return NextResponse.json({ message: "Message added successfully" }, { status: 200 });
 
