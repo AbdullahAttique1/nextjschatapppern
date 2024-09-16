@@ -41,12 +41,14 @@ export default function Chatui() {
   }, [session, status, router]); // Include status in dependencies
   
   
+ 
   
   useEffect(() => {
 
     async function fetchData() {
-      try {
 
+      try {
+    
         // Fetch user data
         // const userResponse = await fetch("/api/userdata", {
         //   method: "POST",
@@ -61,14 +63,34 @@ export default function Chatui() {
         
 
         // Fetch messages
+        if (status !== 'authenticated') {
+          // Wait until the session is fully authenticated
+          return;
+        }
+    
+        const useremailsend = session?.user?.email;
+        console.log(useremailsend,"useremailsend");
         const messageResponse = await fetch("/api/reciveddata", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ messageid: pathname.split("/")[2] }),
+          body: JSON.stringify({ 
+            useremail: useremailsend,
+            messageid: pathname.split("/")[2],
+          }),
         });
+
+        if (!messageResponse.ok) {
+          throw new Error('Failed to fetch data');
+        }
+
         const messageData = await messageResponse.json();
+
+        console.log(messageData,"userdata");
+        
+
+
         setResivemessage(messageData.recivedData);
-        console.log(messageData.recivedData[0].massegecreateduser,"recived data");
+       
         
       } catch (error) {
         console.log(error,"error");
@@ -79,12 +101,13 @@ export default function Chatui() {
     fetchData();
    
     
-  }, [pathname]);
+  }, [pathname,session,status]);
 
   const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
     const messageid = pathname.split("/")[2];
     const useremailsend =await session?.user?.email;
+    console.log(useremailsend,"useremailsend handlesend masg");
 
     const res = await fetch("/api/addchat", {
       method: "POST",
@@ -150,8 +173,7 @@ useEffect(() => {
   setlocaluseremail(localemail);
   
 }, [session]);
-console.log(localemail,"localemail",);
-console.log(localemail,"localemail",);
+
 
 
 
