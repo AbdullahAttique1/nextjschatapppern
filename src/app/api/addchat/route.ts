@@ -18,16 +18,12 @@ try {
         return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
     }
 
-    const userdata = await prisma.user.findUnique({
-        where: {
-          email: datacom.useremail,
-        },
-      });
+
   
 
 
 
-      const userid=userdata ? userdata.id : "cm0z4mmfy000012z5bax1pgka";
+   
 
     await prisma.message.create({
         data: {
@@ -35,6 +31,7 @@ try {
             messageid:datacom.messageid,
             content: datacom.content,
             massegecreateduser:datacom.useremail,
+            userimage:datacom.userimaage,
 
 
     

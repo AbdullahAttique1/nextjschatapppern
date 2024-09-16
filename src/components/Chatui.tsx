@@ -11,7 +11,7 @@ import { socket } from "../socket";
 export default function Chatui() {
   const [messagetext, setMessageText] = useState("");
   const [resivemessage, setResivemessage] = useState<any[]>([]);
-  // const [useremail, setUseremail] = useState<string | null>(null);
+  const [useremail, setUseremail] = useState<string | null>(null);
   const [input, setInput] = useState('');
   const [messages, setMessages] = useState<any[]>([]);
   const [localemail, setlocaluseremail] = useState<string | null | undefined>(null);
@@ -50,14 +50,7 @@ export default function Chatui() {
       try {
     
         // Fetch user data
-        // const userResponse = await fetch("/api/userdata", {
-        //   method: "POST",
-        //   headers: { "Content-Type": "application/json" },
-        //   body: JSON.stringify({ messageid: pathname.split("/")[2] }),
-        // });
-        // const userData = await userResponse.json();
 
-        // setUseremail(userData.userdata.email);
       
 
         
@@ -90,6 +83,19 @@ export default function Chatui() {
 
 
         setResivemessage(messageData.recivedData);
+
+
+
+
+
+
+
+
+
+
+
+
+
        
         
       } catch (error) {
@@ -107,6 +113,7 @@ export default function Chatui() {
     e.preventDefault();
     const messageid = pathname.split("/")[2];
     const useremailsend =await session?.user?.email;
+    const userimage =await session?.user?.image;
     console.log(useremailsend,"useremailsend handlesend masg");
 
     const res = await fetch("/api/addchat", {
@@ -116,6 +123,7 @@ export default function Chatui() {
         useremail: useremailsend,
         messageid,
         content: messagetext,
+        userimaage:userimage,
       }),
     });
 
@@ -171,8 +179,12 @@ console.log(resivemessage,"messages");
 useEffect(() => {
   const localemail=session?.user?.email;
   setlocaluseremail(localemail);
+
+ 
+  
   
 }, [session]);
+
 
 
 
@@ -246,7 +258,7 @@ useEffect(() => {
                 }`}
               >
                 <Avatar className="w-8 h-8">
-                  <AvatarImage src={session?.user?.image ?? "/placeholder-user.jpg"} alt="Avatar" />
+                  <AvatarImage src={message.userimage ?? "/placeholder-user.jpg"} alt="Avatar" />
                   <AvatarFallback>{message.chatId}</AvatarFallback>
                 </Avatar>
               

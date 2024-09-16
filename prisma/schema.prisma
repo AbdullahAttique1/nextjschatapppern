@@ -107,8 +107,11 @@ model Message {
   messageid  String @default(cuid())
   content String 
   massegecreateduser String
+  userimage String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   message Chattemp @relation(fields: [messageid], references: [chatId], onDelete: Cascade, onUpdate: Cascade)
+
   massegecreated User @relation(fields: [massegecreateduser], references: [email], onDelete: Cascade, onUpdate: Cascade)
+
 }      
