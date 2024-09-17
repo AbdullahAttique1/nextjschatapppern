@@ -106,7 +106,7 @@ export default function Chatui() {
         useremail: useremailsend,
         messageid,
         content: messagetext,
-        userimaage:userimage,
+        userimage:userimage,
         code:"R+kqTxhpjSk32gt6U3SA9Sj2+pj1OPbhWD7kksLniGc=",
       }),
     });
