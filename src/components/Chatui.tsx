@@ -1,5 +1,5 @@
 'use client'
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -17,6 +17,8 @@ export default function Chatui() {
   const [input, setInput] = useState('');
   const [messages, setMessages] = useState<any[]>([]);
   const [localemail, setlocaluseremail] = useState<string | null | undefined>(null);
+
+
 
 
 
@@ -209,8 +211,13 @@ console.log(id,content,"id and content");
 
 
 
+  const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
-
+useEffect(() => {
+  if (messagesEndRef.current) {
+    messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+  }
+}, [resivemessage]);
 
 
 
@@ -223,55 +230,47 @@ console.log(id,content,"id and content");
 
 
 
+{/* show messages */}
 
+<div className="flex flex-col w-full h-full">
+      <div
+        className="grid gap-4 w-full overflow-y-auto no-scrollbar"
+        style={{ maxHeight: '80vh' }} // Control the height of the scrollable area
+      >
+        {Array.isArray(resivemessage) && resivemessage.length > 0 &&
+          resivemessage.map((message: any) => (
+            <div
+              key={message.id}
+              className={`flex items-start gap-4 ${
+                localemail === message.massegecreateduser ? 'justify-end' : 'justify-start'
+              }`}
+            >
+              <Avatar className="w-8 h-8">
+                <AvatarImage src={message.userimage ?? "/placeholder-user.jpg"} alt="Avatar" />
+                <AvatarFallback>{message.chatId}</AvatarFallback>
+              </Avatar>
 
-
-
-      <div>
-      <h1>Pusher Test</h1>
-      <p>
-        Try publishing an event to channel <code>my-channel</code> with event name <code>my-event</code>.
-      </p>
+              <div
+                className={`${
+                  localemail === message.massegecreateduser
+                    ? "bg-blue-500 text-white"
+                    : "bg-black text-white"
+                } rounded-lg p-4 max-w-[80%] flex flex-col`}
+              >
+                <p>{message.content}</p>
+                <div className="text-xs text-[#d5d5d5] mt-1">
+                  {new Date(message.createdAt).toLocaleString()}
+                </div>
+              </div>
+            </div>
+          ))}
+        {/* Ref element to scroll to the bottom */}
+        <div ref={messagesEndRef} />
+      </div>
     </div>
 
 
 
-
-
-
-
-{/* show messages */}
-
-
-        <div className="grid gap-4 w-full">
-          {Array.isArray(resivemessage) && resivemessage.length > 0 &&
-            resivemessage.map((message: any) => (
-              <div
-                key={message.id}
-                className={`flex items-start gap-4 ${
-                  localemail  === message.massegecreateduser ? 'justify-end' : 'justify-start'
-                }`}
-              >
-                <Avatar className="w-8 h-8">
-                  <AvatarImage src={message.userimage ?? "/placeholder-user.jpg"} alt="Avatar" />
-                  <AvatarFallback>{message.chatId}</AvatarFallback>
-                </Avatar>
-              
-                <div
-                  className={`${
-                    localemail === message.massegecreateduser
-                      ? "bg-blue-500 text-white"
-                      : "bg-black text-white"
-                  } rounded-lg p-4 max-w-[80%] flex flex-col`}
-                >
-                  <p>{message.content}</p>
-                  <div className="text-xs text-[#d5d5d5] mt-1">
-                    {new Date(message.createdAt).toLocaleString()}
-                  </div>
-                </div>
-              </div>
-            ))}
-        </div>
       </div>
     
       <div className="bg-background border-t border-muted px-4 py-2 flex items-center gap-2">
@@ -280,7 +279,7 @@ console.log(id,content,"id and content");
             value={messagetext}
             onChange={(e) => setMessageText(e.target.value)}
             placeholder="Type your message..."
-            className="flex-1 resize-none rounded-lg pr-12 w-full"
+            className="flex-1 resize-none rounded-lg pr-12 w-full "
             rows={1}
           />
           <Button

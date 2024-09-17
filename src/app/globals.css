@@ -62,3 +62,18 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Chrome, Safari, and Opera */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Firefox */
+.no-scrollbar {
+  scrollbar-width: none; /* For Firefox */
+}
+
+/* General */
+.no-scrollbar {
+  -ms-overflow-style: none; /* For Internet Explorer and Edge */
+}
