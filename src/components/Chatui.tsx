@@ -224,7 +224,7 @@ useEffect(() => {
 
   return (
     <div className="flex flex-col h-screen w-full">
-      <div className="flex-1 overflow-auto p-4 w-full">
+      <div className="flex-1 overflow-auto md:p-4 w-full">
 
 
 
@@ -270,7 +270,7 @@ useEffect(() => {
       </div>
     
 
-      <div className="bg-background border-t border-muted px-4 py-2 flex fixed bottom-0 w-full items-center gap-2">
+      <div className="bg-background border-t border-muted px-1 py-2 flex fixed bottom-1 left-0 w-full items-center ">
   <form className="w-full relative" onSubmit={handleSendMessage}>
     <Textarea
       value={messagetext}

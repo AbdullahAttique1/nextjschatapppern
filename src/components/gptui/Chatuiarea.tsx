@@ -12,7 +12,7 @@ const initialMessages = [
   { id: 2, type: 'sent', content: 'I’m good! How about you?', timestamp: '10:32 AM' },
 ];
 
-const ChatApp = () => {
+const ChatAppGPT = () => {
   const [currentChat, setCurrentChat] = useState(contacts[0]);
   const [messages, setMessages] = useState(initialMessages);
   const [newMessage, setNewMessage] = useState('');
@@ -86,4 +86,4 @@ const ChatApp = () => {
   );
 };
 
-export default ChatApp;
+export default ChatAppGPT;
