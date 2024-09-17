@@ -66,22 +66,6 @@ else{
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 if(!session?.user?.email){
 return<>
 

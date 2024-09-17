@@ -3,6 +3,8 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Providersarea from "./Providers";
 import Landingareaha from "@/components/landingarea";
+import { Toaster } from "@/components/ui/sonner"
+
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,6 +24,7 @@ export default function RootLayout({
 <Providersarea> 
 <Landingareaha />
         {children}
+        <Toaster />
 </Providersarea>
 
         </body>

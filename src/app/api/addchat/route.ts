@@ -1,17 +1,18 @@
 
 import { prisma } from "@/prisma";
 import { NextRequest, NextResponse } from "next/server";
-import { Server } from 'socket.io';
-import { createServer } from "node:http";
+
+
+
+import  Pusher from "pusher"
 
 
 
 
 
+export  async function POST(req: NextRequest) {
 
-export  async function POST(req: any) {
 
-    const httpServer = createServer(req);
     
 
 // user should add chat data to the database
@@ -33,7 +34,7 @@ try {
 
    
 
-    await prisma.message.create({
+ const mymsg=   await prisma.message.create({
         data: {
 
             messageid:datacom.messageid,
@@ -47,18 +48,26 @@ try {
     });
 
 
-    const io = new Server(httpServer);
 
-    io.on('connection', (socket) => {
-      socket.on('chat message', (msg) => {
-        io.emit('chat message', msg);
-      });
-    });
-    httpServer
-      .once("error", (err) => {
-        console.error(err);
-        process.exit(1);
-      })
+ 
+
+const pusher = new Pusher({
+  appId: process.env.REACT_APP_PUSHER_APP_ID || "",
+  key: process.env.REACT_APP_PUSHER_KEY || "",
+  secret: process.env.REACT_APP_PUSHER_SECRET || "",
+  cluster: process.env.REACT_APP_PUSHER_CLUSTER || "",
+  useTLS: true
+});
+
+
+
+
+
+pusher.trigger("my-channel", "my-event", {
+  message: mymsg
+});
+
+
 
 
     // const io = new Server();

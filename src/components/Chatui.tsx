@@ -6,8 +6,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { socket } from "../socket";
-import io from 'socket.io-client';
+import Pusher from 'pusher-js';
+import { toast } from "sonner"
 
 
 export default function Chatui() {
@@ -109,11 +109,20 @@ export default function Chatui() {
         userimaage:userimage,
       }),
     });
-    socket.emit('chat message', input);
+ 
     if (res.ok) {
-      alert("Message sent successfully");
+
+  
+
+      toast("Message sent successfully", {
+        duration: 3000,
+        position: "top-right",
+           })
+
+          
+
       setMessageText("");
-      socket.emit('chat message', input);
+   
     } else {
       console.log("Error sending message");
     }
@@ -126,19 +135,7 @@ export default function Chatui() {
 
 
 
-useEffect(() => {
-  socket.on('chat message', (msg) => {
-    console.log(msg,"msg1");
-    
-    setMessages((prevMessages) => [...prevMessages, msg]);
-    console.log(messages,"messages");
-    
-  });
 
-  return () => {
-    socket.off('chat message');
-  };
-}, []);
  
 
 
@@ -152,16 +149,67 @@ useEffect(() => {
 }, [session]);
 
 
+//pusher area
+
 useEffect(() => {
-  // Listen for 'message1' events from the server
-  socket.on('message1', (data) => {
-    console.log('Received from SERVER:', data);
+  // Enable pusher logging - don't include this in production
+  Pusher.logToConsole = true;
+
+  const pusher = new Pusher('5965b87946c0af181a16', {
+    cluster: 'ap2',
   });
 
+  const channel = pusher.subscribe('my-channel');
+  channel.bind('my-event', (data:any) => {
+    // console.log(data.message.message,"data from pusher");
+    const mymsging=JSON.stringify(data)
+
+
+  
+    
+    const parsedData = JSON.parse(mymsging);
+ 
+
+    const newMessageSound = new Audio('https://assets.mixkit.co/active_storage/sfx/2574/2574-preview.mp3'); // Add the correct path to your audio file
+
+    setResivemessage((prevMessages) => {
+      const updatedMessages = [...prevMessages, data.message];
+      console.log(updatedMessages, "updated messages");
+    
+      // Play the audio when a new message is added
+      newMessageSound.play();
+    
+      return updatedMessages;
+    });
+    
+
+   
+   
+
+    const message = parsedData.message;
+
+const id = message.id;
+const content = message.content;
+console.log(id,content,"id and content");
+
+
+
+
+    
+   
+  
+  });
+
+  // Clean up when component unmounts
   return () => {
-    socket.off('message1');
+    channel.unbind_all();
+    channel.unsubscribe();
   };
 }, []);
+
+
+
+
 
 
 
@@ -171,6 +219,24 @@ useEffect(() => {
   return (
     <div className="flex flex-col h-screen w-full">
       <div className="flex-1 overflow-auto p-4 w-full">
+
+
+
+
+
+
+
+
+      <div>
+      <h1>Pusher Test</h1>
+      <p>
+        Try publishing an event to channel <code>my-channel</code> with event name <code>my-event</code>.
+      </p>
+    </div>
+
+
+
+
 
 
 
