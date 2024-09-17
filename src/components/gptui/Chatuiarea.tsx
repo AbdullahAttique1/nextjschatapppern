@@ -79,7 +79,7 @@ const ChatAppGPT = () => {
           </button>
         </div>
       </div>
-      <div className="text-3xl "> It s s before socket io conection
+      <div className="text-3xl "> It s s before socket io conection Now evertthinhg work fine
         
       </div>
     </div>
