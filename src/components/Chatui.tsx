@@ -42,7 +42,63 @@ export default function Chatui() {
   }, [session, status, router]); // Include status in dependencies
   
   
+ //pusher area
+
+useEffect(() => {
+  // Enable pusher logging - don't include this in production
+  Pusher.logToConsole = true;
+
+  const pusher = new Pusher('5965b87946c0af181a16', {
+    cluster: 'ap2',
+  });
+
+  const channel = pusher.subscribe('my-channel');
+  channel.bind('my-event', (data:any) => {
+    // console.log(data.message.message,"data from pusher");
+    const mymsging=JSON.stringify(data)
+
+
+  
+    
+    const parsedData = JSON.parse(mymsging);
  
+
+    const newMessageSound = new Audio('https://assets.mixkit.co/active_storage/sfx/2574/2574-preview.mp3'); // Add the correct path to your audio file
+
+    setResivemessage((prevMessages) => {
+      const updatedMessages = [...prevMessages, data.message];
+      console.log(updatedMessages, "updated messages");
+    
+      // Play the audio when a new message is added
+      newMessageSound.play();
+    
+      return updatedMessages;
+    });
+    
+
+   
+   
+
+    const message = parsedData.message;
+
+const id = message.id;
+const content = message.content;
+console.log(id,content,"id and content");
+
+
+
+
+    
+   
+  
+  });
+
+  // Clean up when component unmounts
+  return () => {
+    channel.unbind_all();
+    channel.unsubscribe();
+  };
+}, []);
   
   useEffect(() => {
 
@@ -150,63 +206,7 @@ useEffect(() => {
 }, [session]);
 
 
-//pusher area
 
-useEffect(() => {
-  // Enable pusher logging - don't include this in production
-  Pusher.logToConsole = true;
-
-  const pusher = new Pusher('5965b87946c0af181a16', {
-    cluster: 'ap2',
-  });
-
-  const channel = pusher.subscribe('my-channel');
-  channel.bind('my-event', (data:any) => {
-    // console.log(data.message.message,"data from pusher");
-    const mymsging=JSON.stringify(data)
-
-
-  
-    
-    const parsedData = JSON.parse(mymsging);
- 
-
-    const newMessageSound = new Audio('https://assets.mixkit.co/active_storage/sfx/2574/2574-preview.mp3'); // Add the correct path to your audio file
-
-    setResivemessage((prevMessages) => {
-      const updatedMessages = [...prevMessages, data.message];
-      console.log(updatedMessages, "updated messages");
-    
-      // Play the audio when a new message is added
-      newMessageSound.play();
-    
-      return updatedMessages;
-    });
-    
-
-   
-   
-
-    const message = parsedData.message;
-
-const id = message.id;
-const content = message.content;
-console.log(id,content,"id and content");
-
-
-
-
-    
-   
-  
-  });
-
-  // Clean up when component unmounts
-  return () => {
-    channel.unbind_all();
-    channel.unsubscribe();
-  };
-}, []);
 
 
 
