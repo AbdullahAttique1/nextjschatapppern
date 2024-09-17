@@ -61,13 +61,13 @@ useEffect(() => {
   
     
     const parsedData = JSON.parse(mymsging);
- 
+    setResivemessage((prevMessages) => {
+  const updatedMessages = [...prevMessages, data.message];
+      console.log(updatedMessages, "updated messages");
 
     const newMessageSound = new Audio('https://assets.mixkit.co/active_storage/sfx/2574/2574-preview.mp3'); // Add the correct path to your audio file
 
-    setResivemessage((prevMessages) => {
-      const updatedMessages = [...prevMessages, data.message];
-      console.log(updatedMessages, "updated messages");
+     
     
       // Play the audio when a new message is added
       newMessageSound.play();
