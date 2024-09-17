@@ -79,7 +79,8 @@ const ChatAppGPT = () => {
           </button>
         </div>
       </div>
-      <div className="text-3xl "> It s s before socket io conection Now evertthinhg work fine
+      <div className="text-3xl "> 
+        preety sure now it wikk woel
         
       </div>
     </div>

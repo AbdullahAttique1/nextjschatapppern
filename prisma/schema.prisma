@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -13,29 +7,21 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
-
- 
- 
 model User {
-  id String @id @default(cuid())
+  id            String          @id @default(cuid())
   email         String          @unique
-  name         String?
   emailVerified DateTime?
   image         String?
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  name          String?
   accounts      Account[]
-  sessions      Session[]
-  // Optional for WebAuthn support
   Authenticator Authenticator[]
- user Chattemp[]
- messages Message[]
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-
+  user          Chattemp[]
+  messages      Message[]
+  sessions      Session[]
 }
- 
+
 model Account {
   userId            String
   type              String
@@ -48,34 +34,30 @@ model Account {
   scope             String?
   id_token          String?
   session_state     String?
- 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
- 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
- 
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
   @@id([provider, providerAccountId])
 }
- 
+
 model Session {
   sessionToken String   @unique
   userId       String
   expires      DateTime
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
- 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
 }
- 
+
 model VerificationToken {
   identifier String
   token      String
   expires    DateTime
- 
+
   @@id([identifier, token])
 }
- 
-// Optional for WebAuthn support
+
 model Authenticator {
   credentialID         String  @unique
   userId               String
@@ -85,34 +67,31 @@ model Authenticator {
   credentialDeviceType String
   credentialBackedUp   Boolean
   transports           String?
- 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
- 
+  user                 User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
   @@id([userId, credentialID])
 }
 
 model Chattemp {
-  id String @id @default(cuid())
-  chatId String @unique
-  checker String
-  password String
-   users   String[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  chatcreated User @relation(fields: [checker], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  messages Message[]
+  id          String    @id @default(cuid())
+  chatId      String    @unique
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  users       String[]
+  checker     String
+  password    String
+  chatcreated User      @relation(fields: [checker], references: [id], onDelete: Cascade)
+  messages    Message[]
 }
-   
+
 model Message {
-  id String @id @default(cuid())
-  messageid  String @default(cuid())
-  content String 
+  id                 String   @id @default(cuid())
+  content            String
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+  messageid          String   @default(cuid())
   massegecreateduser String
-  userimage String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  message Chattemp @relation(fields: [messageid], references: [chatId], onDelete: Cascade, onUpdate: Cascade)
-
-  massegecreated User @relation(fields: [massegecreateduser], references: [email], onDelete: Cascade, onUpdate: Cascade)
-
-}      
+  userimage          String?
+  massegecreated     User     @relation(fields: [massegecreateduser], references: [email], onDelete: Cascade)
+  message            Chattemp @relation(fields: [messageid], references: [chatId], onDelete: Cascade)
+}
