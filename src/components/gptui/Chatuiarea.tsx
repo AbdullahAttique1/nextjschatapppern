@@ -80,8 +80,10 @@ const ChatAppGPT = () => {
         </div>
       </div>
       <div className="text-3xl "> 
-        preety sure now it wikk woel
-        
+        preety sure now it wikk woel 
+        <p>
+          is ist working please tell wplsese work
+        </p>
       </div>
     </div>
   );
