@@ -56,11 +56,11 @@ try {
 
  
 
-const pusher = new Pusher({
-  appId: process.env.REACT_APP_PUSHER_APP_ID || "",
-  key: process.env.REACT_APP_PUSHER_KEY || "",
-  secret: process.env.REACT_APP_PUSHER_SECRET || "",
-  cluster: process.env.REACT_APP_PUSHER_CLUSTER || "",
+    const pusher = new Pusher({
+        appId: process.env.NEXT_PUBLIC_PUSHER_APP_ID || "",
+        key: process.env.NEXT_PUBLIC_PUSHER_KEY || "",
+        secret: process.env.PUSHER_SECRET || "",  // Only accessible on the server
+        cluster: process.env.NEXT_PUBLIC_PUSHER_CLUSTER || "",
   useTLS: true
 });
 
