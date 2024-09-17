@@ -1,1 +1,2 @@
-Hay my name is Abdullah I created this iste in working stage online chatt app till today 9/13/2024 I add many features and working on live chat seen by different users now every one can enter in chat but soon I will add password
+Hi, my name is Abdullah. I created this site, which is currently in its working stage, as an online chat app. As of today, 9/17/2024, I have added numerous features and am working on enabling live chat visibility among different users. Currently, everyone can join the chat, but I will soon be adding a password feature for added security.
+
