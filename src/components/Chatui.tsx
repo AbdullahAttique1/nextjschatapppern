@@ -13,9 +13,6 @@ import { toast } from "sonner"
 export default function Chatui() {
   const [messagetext, setMessageText] = useState("");
   const [resivemessage, setResivemessage] = useState<any[]>([]);
-  const [useremail, setUseremail] = useState<string | null>(null);
-  const [input, setInput] = useState('');
-  const [messages, setMessages] = useState<any[]>([]);
   const [localemail, setlocaluseremail] = useState<string | null | undefined>(null);
 
 
@@ -60,13 +57,14 @@ export default function Chatui() {
         }
     
         const useremailsend = session?.user?.email;
-       
+        
         const messageResponse = await fetch("/api/reciveddata", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ 
             useremail: useremailsend,
             messageid: pathname.split("/")[2],
+            code:"R+kqTxhpjSk32gt6U3SA9Sj2+pj1OPbhWD7kksLniGc=",
           }),
         });
 
@@ -99,7 +97,7 @@ export default function Chatui() {
     const messageid = pathname.split("/")[2];
     const useremailsend =await session?.user?.email;
     const userimage =await session?.user?.image;
-   
+
 
     const res = await fetch("/api/addchat", {
       method: "POST",
@@ -109,6 +107,7 @@ export default function Chatui() {
         messageid,
         content: messagetext,
         userimaage:userimage,
+        code:"R+kqTxhpjSk32gt6U3SA9Sj2+pj1OPbhWD7kksLniGc=",
       }),
     });
  
@@ -268,31 +267,38 @@ useEffect(() => {
         <div ref={messagesEndRef} />
       </div>
     </div>
-
-
-
       </div>
     
-      <div className="bg-background border-t border-muted px-4 py-2 flex items-center gap-2">
-        <form className="w-full relative" onSubmit={handleSendMessage}>
-          <Textarea
-            value={messagetext}
-            onChange={(e) => setMessageText(e.target.value)}
-            placeholder="Type your message..."
-            className="flex-1 resize-none rounded-lg pr-12 w-full "
-            rows={1}
-          />
-          <Button
-            type="submit"
-            variant="ghost"
-            size="icon"
-            className="absolute top-2 right-4 bg-black text-white"
-          >
-            <SendIcon className="w-5 h-5" />
-            <span className="sr-only">Send</span>
-          </Button>
-        </form>
-      </div>
+
+      <div className="bg-background border-t border-muted px-4 py-2 flex fixed bottom-0 w-full items-center gap-2">
+  <form className="w-full relative" onSubmit={handleSendMessage}>
+    <Textarea
+      value={messagetext}
+      onChange={(e) => setMessageText(e.target.value)}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+          e.preventDefault();
+          handleSendMessage(e);
+        }
+      }}
+      placeholder="Type your message..."
+      className="flex-1 resize-none rounded-lg pr-12 w-full"
+      rows={1}
+    />
+    <Button
+      type="submit"
+      variant="ghost"
+      size="icon"
+      className="absolute top-2 right-4 bg-black text-white"
+    >
+      <SendIcon className="w-5 h-5" />
+      <span className="sr-only">Send</span>
+    </Button>
+  </form>
+</div>
+
+
+
     </div>
   );
 }

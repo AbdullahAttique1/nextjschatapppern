@@ -14,9 +14,9 @@ if (data.code !== process.env.Next_secret_code) {
   return NextResponse.json({ error: "Invalid code" }, { status: 400 });
 }
 
-const recivedData = await prisma.message.findMany({
+const recivedData = await prisma.chattemp.findMany({
     where: {
-      messageid: data.messageid,
+        chatId: data.messageid,
     }, 
   });
   

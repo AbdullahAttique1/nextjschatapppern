@@ -6,6 +6,15 @@ export async function POST(request: NextRequest, { params }: { params: { chatare
     // Parse the request JSON data
     const data = await request.json();
 
+
+
+    if (data.code !== process.env.Next_secret_code) {
+            
+      return NextResponse.json({ error: "Invalid code" }, { status: 400 });
+    }
+    
+   
+
     // Fetch the user data by email
     const userdata = await prisma.user.findUnique({
       where: {
@@ -21,6 +30,7 @@ export async function POST(request: NextRequest, { params }: { params: { chatare
     // Create a chat room
     const chatroom = await prisma.chattemp.create({
       data: {
+        password: data.password,
         chatId: data.randomid,
         checker: userid, // This should be the ID of an existing user
         users: [userid,],

@@ -22,6 +22,11 @@ try {
     
 
     const  datacom = await req.json();
+    
+
+    if (datacom.code!==process.env.Next_secret_code) {             
+        return NextResponse.json({ error: "Invalid code" }, { status: 400 });
+    }
 
     if (!datacom.useremail || !datacom.messageid || !datacom.content) {
         return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
