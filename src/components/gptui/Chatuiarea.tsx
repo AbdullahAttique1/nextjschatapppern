@@ -80,7 +80,7 @@ const ChatAppGPT = () => {
         </div>
       </div>
       <div className="text-3xl "> 
-        hey are you workidnfd
+Update next api key jere and ther efor tst ing
         <p>
          
          
