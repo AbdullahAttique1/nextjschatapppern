@@ -15,6 +15,8 @@ export  async function POST(req: NextRequest) {
 
     
 
+
+
 // user should add chat data to the database
 
 
@@ -54,7 +56,11 @@ try {
 
 
 
- 
+
+
+
+  
+
 
 
 
@@ -80,9 +86,9 @@ pusher.trigger("my-channel", "my-event", {
     // const io = new Server();
     // io.emit('message1', 'Message added to the database');
 
-  
+    console.log('Message created:', mymsg);
 
-    return NextResponse.json({ message: "Message added successfully" }, { status: 200 });
+    return NextResponse.json({ mymsg }, { status: 200 });
 
 } catch (error) {
     console.log(error,"froma d sad");
