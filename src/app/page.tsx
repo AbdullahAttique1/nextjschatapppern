@@ -15,7 +15,6 @@ import {
 } from "@/components/ui/dialog";
 
 import { useState, useEffect } from "react";
-import Image from "next/image";
 
 export default function Home() {
   const { data: session } = useSession();

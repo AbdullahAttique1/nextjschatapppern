@@ -17,8 +17,6 @@ export default function Chatui() {
 
 
 
-
-
   const pathname = usePathname();
   const { data: session, status } = useSession(); // Destructure status
   const router = useRouter();
@@ -61,11 +59,11 @@ useEffect(() => {
   
     
     const parsedData = JSON.parse(mymsging);
+    const newMessageSound = new Audio('https://assets.mixkit.co/active_storage/sfx/2574/2574-preview.mp3'); // Add the correct path to your audio file
     setResivemessage((prevMessages) => {
   const updatedMessages = [...prevMessages, data.message];
       console.log(updatedMessages, "updated messages");
 
-    const newMessageSound = new Audio('https://assets.mixkit.co/active_storage/sfx/2574/2574-preview.mp3'); // Add the correct path to your audio file
 
      
     
@@ -74,10 +72,7 @@ useEffect(() => {
     
       return updatedMessages;
     });
-    
-
-   
-   
+       
 
     const message = parsedData.message;
 
@@ -167,22 +162,22 @@ console.log(id,content,"id and content");
       }),
     });
  
-    if (res.ok) {
-
-  
+    if (res.ok) {  
 
       toast("Message sent successfully", {
         duration: 3000,
         position: "top-right",
-           })
-
-          
+           })        
 
       setMessageText("");
+
    
     } else {
       console.log("Error sending message");
     }
+
+
+
   };
 
   
