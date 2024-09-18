@@ -4,7 +4,6 @@ import { useState, useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import Pusher from "pusher-js";
 import { toast } from "sonner";
 import MessageList from "./MessageList";
 import MessageInput from "./MessageInput ";
@@ -65,28 +64,7 @@ export default function ChatUIS() {
     }
   }, [resivemessage]);
 
-  // Pusher Integration
-  useEffect(() => {
-    Pusher.logToConsole = true;
-    const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_KEY || "", {
-      cluster: "ap2",
-    });
 
-    const channel = pusher.subscribe("my-channel");
-    channel.bind("my-event", (data: any) => {
-      const newMessageSound = new Audio("/path/to/sound.mp3");
-      setResivemessage((prevMessages) => {
-        const updatedMessages = [...prevMessages, data.message];
-        newMessageSound.play();
-        return updatedMessages;
-      });
-    });
-
-    return () => {
-      channel.unbind_all();
-      channel.unsubscribe();
-    };
-  }, []);
 
   return (
     <div className="flex flex-col h-screen w-full">
